@@ -17,21 +17,22 @@ import {
 type ResCallbackFn<R = any> = (res: R) => void;
 type Handler = object | (() => void);
 
+const global = window as any;
+
 const isFunc = pipe(
   type,
   equals('Function')
 );
 
-const getCbName = (global: any) =>
-  ifElse(
-    isFunc,
-    (cb: ResCallbackFn) => {
-      const cbName = `dscb${global.dscb++}`;
-      global[cbName] = cb;
-      return cbName;
-    },
-    F
-  );
+const getCbName = ifElse(
+  isFunc,
+  (cb: ResCallbackFn) => {
+    const cbName = `dscb${global.dscb++}`;
+    global[cbName] = cb;
+    return cbName;
+  },
+  F
+);
 
 const isWindowDSBridge = has('_dsbridge');
 const isUserAgentDSBridge = both(
@@ -39,17 +40,11 @@ const isUserAgentDSBridge = both(
   pathSatisfies(includes('_dsbridge'), ['navigator', 'userAgent'])
 );
 
-export const call = <R>({
-  args = null,
-  callback,
-  global = window,
-  method,
-}: {
-  args?: object;
-  callback?: ResCallbackFn<R>;
-  global?: any;
-  method: string;
-}) => {
+export const call = <R>(
+  method: string,
+  args?: object,
+  callback?: ResCallbackFn<R>
+) => {
   const arg = pipe(
     mergeRight({ _dscbstub: getCbName(global)(callback) }),
     JSON.stringify
@@ -58,7 +53,7 @@ export const call = <R>({
   });
 
   const res = cond([
-    [isWindowDSBridge, (global: any) => global._dsbridge.call(method, arg)],
+    [isWindowDSBridge, () => global._dsbridge.call(method, arg)],
     [isUserAgentDSBridge, () => prompt(`_dsbridge=${method}`, arg)],
   ])(global);
 
@@ -72,13 +67,12 @@ export const call = <R>({
 export const register = (
   name: string,
   func: Handler,
-  async: boolean = false,
-  global: any = window
+  async: boolean = false
 ) => {
   if (!global._dsInit) {
     global._dsInit = true;
     setTimeout(() => {
-      call({ method: '_dsb.dsinit' });
+      call('_dsb.dsinit');
     }, 0);
   }
 
@@ -96,7 +90,7 @@ export const registerAsyn = (name: string, func: Handler) =>
 export const hasNativeMethod = (
   name: string,
   type: 'all' | 'asyn' | 'syn' = 'all'
-) => call({ method: '_dsb.hasNativeMethod', args: { name, type } });
+) => call('_dsb.hasNativeMethod', { name, type });
 
 export const disableJavascriptDialogBlock = (disable: boolean = false) =>
-  call({ method: '_dsb.disableJavascriptDialogBlock', args: { disable } });
+  call('_dsb.disableJavascriptDialogBlock', { disable });
