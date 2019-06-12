@@ -1,6 +1,8 @@
 # DSBridge-Electron
 
-## global variables that DSBridge-JS relies on
+## DSBriget for Electron
+
+### global variables that DSBridge-JS relies on
 
 - \_dsbridge: it should have a `call` method (method:string, arg:string)
 

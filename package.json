@@ -1,10 +1,10 @@
 {
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "@types/ramda": "^0.26.9",
     "prettier": "^1.18.2",
-    "typescript": "^3.5.1"
-  },
-  "dependencies": {
-    "ramda": "^0.26.1"
+    "tsdx": "^0.6.1"
   }
 }
