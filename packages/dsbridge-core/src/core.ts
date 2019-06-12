@@ -21,7 +21,7 @@ const global = window as any;
 
 const isFunc = pipe(
   type,
-  equals('Function')
+  equals<any>('Function')
 );
 
 const getCbName = ifElse(
@@ -58,7 +58,7 @@ export const call = <R>(
   ])(global);
 
   return pipe(
-    defaultTo('{}'),
+    defaultTo<any>('{}'),
     JSON.parse,
     prop('data')
   )(res);

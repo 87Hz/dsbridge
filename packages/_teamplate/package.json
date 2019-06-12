@@ -1,0 +1,22 @@
+{
+  "name": "teamplate",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "umd:main": "dist/teamplate.umd.production.js",
+  "module": "dist/teamplate.es.production.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
