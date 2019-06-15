@@ -4,10 +4,13 @@ import { registerAsyn } from './registerAsyn';
 import { hasNativeMethod } from './hasNativeMethod';
 import { disableJavascriptDialogBlock } from './disableJavascriptDialogBlock';
 
-module.exports = {
+const dsbridge = {
   call,
   register,
   registerAsyn,
   hasNativeMethod,
   disableJavascriptDialogBlock,
 };
+
+export default dsbridge;
+module.exports = dsbridge;
