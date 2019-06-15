@@ -36,6 +36,8 @@ const _register = (global: any) => (
   }
 
   const q = async ? global._dsaf : global._dsf;
+  if (!q) return;
+
   if (isFunc(func)) {
     q[name] = func;
   } else {
