@@ -8,7 +8,8 @@ arg: argument, Only one allowed, if you expect multiple parameters, you can pass
 
 callback(String returnValue): callback to handle the result. only asynchronous invocation required.
 */
-import { cond, defaultTo, F, ifElse, mergeRight, pipe, prop } from 'ramda';
+import { cond, defaultTo, mergeRight, has, pipe, prop } from 'ramda';
+
 import {
   createFn,
   isFunc,
@@ -18,16 +19,19 @@ import {
 
 type ResCallbackFn<R = any> = (res: R) => void;
 
-const getCbName = (global: any, cb?: ResCallbackFn) =>
-  ifElse(
-    isFunc,
-    (cb: ResCallbackFn) => {
-      const cbName = `dscb${global.dscb++}`;
-      global[cbName] = cb;
-      return cbName;
-    },
-    F
-  )(cb);
+const registerCb = (global: any, cb?: ResCallbackFn) => {
+  const globalCbName = `dscb_${global.dscb++}`;
+  global[globalCbName] = cb;
+  return globalCbName;
+};
+
+const withCbIfAny = (global: any, cb?: ResCallbackFn) => (arg: object) => {
+  if (isFunc(cb) && has('dscb', global)) {
+    return mergeRight({ _dscbstub: registerCb(global, cb) })(arg);
+  }
+
+  return arg;
+};
 
 const _call = (global: any) => <R>(
   method: string,
@@ -35,7 +39,7 @@ const _call = (global: any) => <R>(
   callback?: ResCallbackFn<R>
 ) => {
   const arg = pipe(
-    mergeRight({ _dscbstub: getCbName(global, callback) }),
+    withCbIfAny(global, callback),
     JSON.stringify
   )({
     data: args,

@@ -1,4 +1,14 @@
-import { both, equals, has, includes, pathSatisfies, pipe, type } from 'ramda';
+import {
+  both,
+  equals,
+  has,
+  includes,
+  pathSatisfies,
+  pipe,
+  type,
+  isNil,
+  complement,
+} from 'ramda';
 
 export const isFunc = pipe(
   type,
@@ -13,3 +23,5 @@ export const isUserAgentDSBridge = both(
 );
 
 export const createFn = (fn: (global: any) => Function) => fn(window);
+
+export const isNotNil = complement(isNil);
