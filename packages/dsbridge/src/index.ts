@@ -4,7 +4,7 @@ import { registerAsyn } from './registerAsyn';
 import { hasNativeMethod } from './hasNativeMethod';
 import { disableJavascriptDialogBlock } from './disableJavascriptDialogBlock';
 
-export default {
+module.exports = {
   call,
   register,
   registerAsyn,

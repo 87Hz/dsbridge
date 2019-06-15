@@ -1,12 +1,17 @@
 {
-  "name": "dsbridge-core",
-  "version": "1.0.0",
+  "name": "@chat.chat/dsbridge",
+  "version": "0.0.1-alpha0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test"
+    "test": "tsdx test",
+    "clean": "rimraf dist/",
+    "prepublishOnly": "yarn clean && yarn build"
   },
   "keywords": [],
   "author": "",
