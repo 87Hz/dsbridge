@@ -3,11 +3,12 @@ import { call } from './call';
 
 const createDsf = always({ _obs: [] });
 
+// init
 ((global: any) => {
   global._dsInit = false;
 
   // main
-  global._dsBridge = { call };
+  global._dsbridge = { call };
 
   // function registry
   global._dsaf = createDsf();
