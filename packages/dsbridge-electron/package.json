@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "clean": "rimraf dist/",
+    "prepublishOnly": "yarn clean && yarn build",
+    "demo": "electron demo/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/ramda": "^0.26.9"
+    "@types/ramda": "^0.26.9",
+    "electron-reload": "^1.4.0",
+    "electron": "^5.0.4"
   },
   "dependencies": {
     "ramda": "^0.26.1"
