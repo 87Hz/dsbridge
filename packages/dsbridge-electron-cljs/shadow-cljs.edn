@@ -1,0 +1,8 @@
+{:source-paths ["src"]
+ :dependencies []
+ :dev-http {8080 "target/"}
+ :builds
+ {:web {:output-dir "dist/web"
+        :asset-path "."
+        :target :browser
+        :modules {:preload {:init-fn dsbridge.web.main/init!}}}}}
