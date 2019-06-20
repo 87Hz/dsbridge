@@ -1,8 +1,8 @@
-import { ipcMain } from 'electron';
-import { initElectron } from '../dist';
+const { ipcMain } = require('electron');
+const { initElectron, register } = require('../dist');
 
 initElectron(ipcMain);
 
-// register('_dsb.hasNativeMethod', (evt: Event, msg: string) => {
-//   evt.returnValue = false;
-// });
+register('hello', (evt: any, arg: string) => {
+  evt.returnValue = 'how are you';
+});
