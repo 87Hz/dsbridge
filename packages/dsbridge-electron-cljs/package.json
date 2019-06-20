@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "shadow-cljs watch app",
+    "build": "shadow-cljs release dsbridge",
     "clean": "rimraf dist/",
     "prepublishOnly": "yarn clean && yarn build",
     "demo": "electron demo/index.js"
