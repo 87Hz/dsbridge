@@ -24,7 +24,7 @@ export const CallSync = () => {
         <button onClick={handleRun}>call({`'${method}', '${arg}'`})</button>
       </p>
 
-      <p>Res: {res}</p>
+      <p>Res: {JSON.stringify(res)}</p>
     </>
   );
 };

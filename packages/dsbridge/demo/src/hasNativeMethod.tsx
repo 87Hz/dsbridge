@@ -33,7 +33,7 @@ export const HasNativeMethod = () => {
         >{`hasNativeMethod('${method}', '${type}')`}</button>
       </p>
 
-      <p>Res: {res}</p>
+      <p>Res: {JSON.stringify(res)}</p>
     </>
   );
 };
