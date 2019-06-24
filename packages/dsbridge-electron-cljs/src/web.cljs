@@ -1,7 +1,6 @@
 (ns web
-  (:require [utils :as u]))
-
-(defonce ipc-renderer (atom nil))
+  (:require [utils :as u]
+            [atoms :refer [ipc-renderer]]))
 
 (defn call [method jsArg]
   (let [arg (js/JSON.parse jsArg)]

@@ -1,17 +1,16 @@
 (ns electron
   (:require [builtin-apis :as a]
-            [utils :as u]))
-
-(defonce ipc-main (atom nil))
-(defonce apis (atom {}))
+            [utils :as u]
+            [atoms :refer [ipc-main apis]]))
 
 (defn register-api
   [api]
   (let [{:keys [sync-handler async-handler namespace]} api]
     (swap! apis assoc namespace api)
-    (.on ^js @ipc-main namespace (fn [evt args]
-                                   (prn (str "Calling native method: " namespace))
-                                   (sync-handler evt)))))
+    (.on ^js @ipc-main namespace
+         (fn [evt js-arg]
+           (when sync-handler (sync-handler evt js-arg))
+           (when async-handler (async-handler evt js-arg))))))
 
 (defn init
   "Init Electron to be DS ready"
