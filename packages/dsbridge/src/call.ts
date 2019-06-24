@@ -38,18 +38,18 @@ const _call = (global: any) => <R>(
   args?: object,
   callback?: ResCallbackFn<R>
 ) => {
-  const arg = pipe(
-    withCbIfAny(global, callback),
-    JSON.stringify
-  )({
-    data: args,
-  });
+  const arg = withCbIfAny(global, callback)({ data: args });
+  const argJson = JSON.stringify(arg);
 
   const res = cond([
-    [isWindowDSBridge, () => global._dsbridge.call(method, arg)],
-    [isUserAgentDSBridge, () => prompt(`_dsbridge=${method}`, arg)],
+    [isWindowDSBridge, () => global._dsbridge.call(method, argJson)],
+    [isUserAgentDSBridge, () => prompt(`_dsbridge=${method}`, argJson)],
   ])(global);
 
+  // async call
+  if (has('_dscbstub', arg)) return;
+
+  // sync call
   return pipe(
     defaultTo<any>('{}'),
     JSON.parse,
