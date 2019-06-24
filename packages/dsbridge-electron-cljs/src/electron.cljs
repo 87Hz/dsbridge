@@ -8,9 +8,9 @@
   (let [{:keys [sync-handler async-handler namespace]} api]
     (swap! apis assoc namespace api)
     (.on ^js @ipc-main namespace
-         (fn [evt js-arg]
-           (when sync-handler (sync-handler evt js-arg))
-           (when async-handler (async-handler evt js-arg))))))
+         (fn [evt arg-json]
+           (when sync-handler (sync-handler evt arg-json))
+           (when async-handler (async-handler evt arg-json))))))
 
 (defn init
   "Init Electron to be DS ready"
@@ -29,11 +29,17 @@
 
 (defn addJavascriptObject
   "Add the API object with supplied namespace into Web"
-  [api-object namespace])
+  [js-api-obj namespace]
+  (let [api-obj (js->clj js-api-obj)
+        sync-handler (get api-obj "sync")
+        async-handler (get api-obj "async")
+        api (u/API. sync-handler async-handler namespace)]
+    (register-api api)))
 
 (defn removeJavascriptObject
   "Remove the API object with supplied namespace."
-  [])
+  [namespace]
+  (swap! apis dissoc namespace))
 
 (defn callHandler
   "Call handlers registered in Web"

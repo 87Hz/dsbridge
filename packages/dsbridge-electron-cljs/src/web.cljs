@@ -2,12 +2,19 @@
   (:require [utils :as u]
             [atoms :refer [ipc-renderer]]))
 
-(defn call [method jsArg]
-  (let [arg (js/JSON.parse jsArg)]
-    (prn (str "Calling " method " with arg " jsArg))
-    (if (u/is-sync-call arg)
-      (.sendSync ^js @ipc-renderer method arg)
-      (.send ^js @ipc-renderer method arg))))
+(defn call [method arg-json]
+  (let [js-arg (js/JSON.parse arg-json)]
+    (if (u/is-sync-call js-arg)
+      ;; sync call
+      (.sendSync ^js @ipc-renderer method arg-json)
+      ;; async call
+      (let [arg (js->clj js-arg)
+            dscbstub (get arg "_dscbstub")]
+        (do (.send ^js @ipc-renderer method arg-json)
+            (.once ^js @ipc-renderer dscbstub
+                   (fn [_ js-res]
+                     (let [dscb (aget js/window dscbstub)]
+                       (dscb js-res)))))))))
 
 (defn init
   "Init BrowerWindow/View to be DS ready"

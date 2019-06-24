@@ -9,16 +9,18 @@
           "_dsb.dsinit"))
 
 (def disable-javascript-dialog-block
-  (u/API. (fn [evt js-arg]
-            (let [arg (js->clj js-arg)
+  (u/API. (fn [evt arg-json]
+            (let [js-arg (js/JSON.parse arg-json)
+                  arg (js->clj js-arg)
                   disable (get-in arg ["data" "disable"])]
               (u/return-value evt disable)))
           nil
           "_dsb.disableJavascriptDialogBlock"))
 
 (def has-native-method
-  (u/API. (fn [evt js-arg]
-            (let [arg (js->clj js-arg)
+  (u/API. (fn [evt arg-json]
+            (let [js-arg (js/JSON.parse arg-json)
+                  arg (js->clj js-arg)
                   name (get-in arg ["data" "name"])
                   type (get-in arg ["data" "type"])
                   api (get @apis name)]

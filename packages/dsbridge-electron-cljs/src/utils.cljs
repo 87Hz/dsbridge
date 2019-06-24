@@ -6,5 +6,5 @@
   (let [res (js/JSON.stringify #js {:data data})]
     (set! (.-returnValue evt) res)))
 
-(defn is-sync-call [arg]
-  (nil? (.-_dscbstub arg)))
+(defn is-sync-call [js-arg]
+  (nil? (.-_dscbstub js-arg)))
