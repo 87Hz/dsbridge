@@ -1,28 +1,26 @@
-import { ipcMain } from 'electron';
-import { forEachObjIndexed } from 'ramda';
+const { ipcMain } = require('electron');
+const { initElectron, addJavascriptObject } = require('../dist');
 
-const syncIpcHandlers = {
-  'sync-msg': (event: any, arg: any) => {
-    console.log(arg);
+initElectron(ipcMain);
+
+addJavascriptObject(
+  {
+    sync: (evt: any, args: string) => {
+      const { data } = JSON.parse(args);
+      evt.returnValue = JSON.stringify({ data });
+    },
+
+    async: () => {},
   },
-};
+  'hello'
+);
 
-const asyncIpcHandlers = {
-  'async-msg': (event: any, arg: any) => {
-    console.log(arg);
+addJavascriptObject(
+  {
+    async: (evt: any, args: string) => {
+      const { data, _dscbstub } = JSON.parse(args);
+      evt.reply(_dscbstub, JSON.stringify({ data }));
+    },
   },
-};
-
-const registerIpcHandlers = forEachObjIndexed((listener, channel) => {
-  ipcMain.on(channel, listener);
-});
-
-export const initIpc = () => {
-  ipcMain.on('_dsb.hasNativeMethod', (event: string, arg: string) => {
-    const { data } = JSON.parse(arg);
-    console.log('here', data);
-  });
-
-  registerIpcHandlers(syncIpcHandlers);
-  registerIpcHandlers(asyncIpcHandlers);
-};
+  'helloAsync'
+);

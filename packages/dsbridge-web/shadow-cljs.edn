@@ -1,0 +1,6 @@
+{:source-paths ["src"]
+ :dependencies []
+ :builds {:dsbridge {:target :node-library
+                     :output-dir "dist"
+                     :output-to "dist/index.js"
+                     :exports-var index/exports}}}

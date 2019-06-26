@@ -1,16 +1,15 @@
-import { app } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { join } from 'path';
-import { initIpc } from './ipc';
-import { DSBrowserWindow } from '../src/core/DSBrowerWindow';
+import './ipc';
 
 const createWindow = () => {
-  const mainWindow = new DSBrowserWindow({
+  const mainWindow = new BrowserWindow({
     webPreferences: {
-      preload: join(__dirname, '../dist/index.js'),
+      preload: join(__dirname, 'preload.js'),
     },
   });
 
-  mainWindow.webContents.loadURL('http://localhost:8080');
+  mainWindow.webContents.loadURL('https://87hz.github.io/dsbridge/index.html');
   mainWindow.webContents.openDevTools();
   mainWindow.maximize();
 };
@@ -20,5 +19,3 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
-
-initIpc();
