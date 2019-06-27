@@ -1,6 +1,6 @@
-# DSBridge-Electron
+# DSBridge-Web
 
-## DSBriget for Electron
+## DSBriget for Web
 
 ### global variables that DSBridge-JS relies on
 
