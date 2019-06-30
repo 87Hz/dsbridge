@@ -1,6 +1,10 @@
 {:source-paths ["src"]
  :dependencies []
- :builds {:dsbridge {:target :node-library
-                     :output-dir "dist"
-                     :output-to "dist/index.js"
-                     :exports-var index/exports}}}
+ :builds {:preload {:target :browser
+                    :output-dir "dist"
+                    :output-to "dist/preload.js"
+                    :modules {:preload {:init-fn preload/init}}}
+
+          :host {:target :node-library
+                 :output-to "dist/index.js"
+                 :exports-var index/exports}}}

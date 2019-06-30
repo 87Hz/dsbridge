@@ -3,7 +3,7 @@
 (defn call [] nil)
 
 (defn init
-  "Init Web to be DS ready"
+  "Init Web to be DSBridge ready"
   []
   (let [global js/window
         js-methods #js {:_obs #js []}
