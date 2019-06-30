@@ -11,6 +11,7 @@
   "Init Web to be DSBridge ready"
   []
   (let [global js/window
+        dsf-registry #js {:_obs #js []}
         dsbridge #js {:call call}]
     (aset global "dscb" 0)
     (aset global "_dsInit" false)

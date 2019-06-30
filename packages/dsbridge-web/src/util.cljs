@@ -4,4 +4,4 @@
   "Get a global varibale"
   [var-name]
   (let [global js/window]
-    (aget global var-name)))
+    (js->clj (aget global var-name))))

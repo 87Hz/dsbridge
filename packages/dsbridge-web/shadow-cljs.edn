@@ -6,5 +6,6 @@
                     :modules {:preload {:init-fn preload/init}}}
 
           :host {:target :node-library
+                 :output-dir "dist"
                  :output-to "dist/index.js"
                  :exports-var index/exports}}}
