@@ -7,13 +7,15 @@
 (defn callHandler
   "Call handlers registered in Web"
   ([method-name args cb]
-   (let [handler (dsaf method-name)]
+   (when-let [handler (dsaf method-name)]
      (handler args cb)))
 
   ([method-name args]
-   (let [handler (dsf method-name)]
+   (when-let [handler (dsf method-name)]
      (handler args))))
 
 (defn hasJavascriptMethod
   "Test whether the handler exist in javascript"
-  [method async?])
+  [method-name async?]
+  (let [func-registry (if async? dsaf dsf)]
+    (contains? func-registry method-name)))
