@@ -19,3 +19,15 @@
   [method-name async?]
   (let [func-registry (if async? dsaf dsf)]
     (contains? func-registry method-name)))
+
+(defn disableJavascriptDialogBlock
+  "Not implemented"
+  [])
+
+(defn setJavascriptCloseWindowListener
+  "Not implemented"
+  [])
+
+(defn setWebContentsDebuggingEnabled
+  "Not implemented"
+  [])

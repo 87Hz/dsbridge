@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import dsBridge from '../../dist';
+import dsBridge from 'dsbridge';
 
 export const DisableJavascriptDialogBlock = () => {
   const [enable, setEnable] = useState('false');
@@ -7,7 +7,7 @@ export const DisableJavascriptDialogBlock = () => {
 
   const handleRun = () => {
     const dsRes = dsBridge.disableJavascriptDialogBlock(enable === 'true');
-    setRes(dsRes);
+    setRes(JSON.stringify(dsRes));
   };
 
   return (

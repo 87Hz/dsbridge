@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import dsBridge from '../../dist';
+import dsBridge from 'dsbridge';
 
 export const Register = () => {
   useEffect(() => {

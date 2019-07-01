@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import dsBridge from '../../dist';
+import dsBridge from 'dsbridge';
 
 export const HasNativeMethod = () => {
   const [method, setMethod] = useState('hello');
@@ -9,7 +9,7 @@ export const HasNativeMethod = () => {
 
   const handleRun = () => {
     const dsRes = dsBridge.hasNativeMethod(method, type);
-    setRes(dsRes);
+    setRes(JSON.stringify(dsRes));
   };
 
   return (

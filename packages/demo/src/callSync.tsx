@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import dsBridge from '../../dist';
+import dsBridge from 'dsbridge';
 
 export const CallSync = () => {
   const [method, setMethod] = useState('hello');
