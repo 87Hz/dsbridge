@@ -22,10 +22,8 @@
     (register-api api))
   (prn "DSBridge for Electron initialized."))
 
-(defn hasJavascriptMethod
-  "Test whether the handler exist in Web"
-  [method-name]
-  true)
+
+;; -------------------------------------------------
 
 (defn addJavascriptObject
   "Add the API object with supplied namespace into Web"
@@ -52,6 +50,11 @@
 (defn setJavascriptCloseWindowListener
   "Not implemented"
   [])
+
+(defn hasJavascriptMethod
+  "Test whether the handler exist in Web"
+  [method-name]
+  true)
 
 (defn setWebContentsDebuggingEnabled
   "Not implemented"

@@ -16,16 +16,29 @@
                      (let [dscb (aget js/window dscbstub)]
                        (dscb js-res)))))))))
 
+(defn init-dsfs
+  "Construct DSBridge Web function registry"
+  []
+  #js {:_obs #js []})
+
 (defn init
   "Init BrowerWindow/View to be DS ready"
   [ipcRenderer]
   (let [global js/window
-        js-methods #js {:_obs #js []}
         dsbridge #js {:call call}]
     (reset! ipc-renderer ipcRenderer)
     (aset global "dscb" 0)
     (aset global "_dsInit" false)
-    (aset global "_dsf" js-methods)
-    (aset global "_dsaf" js-methods)
+    (aset global "_dsf" (init-dsfs))
+    (aset global "_dsaf" (init-dsfs))
     (aset global "_dsbridge" dsbridge)
     (prn "DSBridge for Web initialized.")))
+
+;; -------------------------------------------------
+;; dsBridge.hasNativeMethod (handlerName,[type])
+;; Test whether the handler exist in Java, the handlerName can contain the namespace.
+;; type: optional["all"|"syn"|"asyn" ], default is "all".
+
+;; dsBridge.disableJavascriptDialogBlock (disable)
+;; Calling dsBridge.disableJavascriptDialogBlock (...) has the
+;; same effect as calling dwebview.disableJavascriptDialogBlock (...) in Java.

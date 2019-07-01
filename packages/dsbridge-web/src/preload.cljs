@@ -3,7 +3,7 @@
 (defn call [] nil)
 
 (defn init-dsfs
-  "Construct DSBridge function registry"
+  "Construct DSBridge Web function registry"
   []
   #js {:_obs #js []})
 
