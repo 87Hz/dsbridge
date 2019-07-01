@@ -1,5 +1,5 @@
 (ns web
-  (:require [utils :as u]
+  (:require [util :as u]
             [atoms :refer [ipc-renderer]]))
 
 (defn call [method arg-json]

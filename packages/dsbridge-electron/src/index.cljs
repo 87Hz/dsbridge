@@ -1,7 +1,7 @@
 (ns index
   (:require [web :as w]
-            [electron :as e]))
+            [native :as n]))
 
 (def exports #js {:initWeb w/init
-                  :initElectron e/init
-                  :addJavascriptObject e/addJavascriptObject})
+                  :initNative n/init
+                  :addJavascriptObject n/addJavascriptObject})

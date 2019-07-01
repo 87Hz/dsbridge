@@ -1,4 +1,4 @@
-(ns utils)
+(ns util)
 
 (defrecord API [sync-handler async-handler namespace])
 

@@ -1,6 +1,6 @@
-(ns electron
+(ns native
   (:require [builtin-apis :as a]
-            [utils :as u]
+            [util :as u]
             [atoms :refer [ipc-main apis]]))
 
 (defn register-api

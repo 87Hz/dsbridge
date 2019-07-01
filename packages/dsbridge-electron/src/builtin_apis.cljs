@@ -1,5 +1,5 @@
 (ns builtin-apis
-  (:require [utils :as u]
+  (:require [util :as u]
             [atoms :refer [apis]]))
 
 (def ds-init
