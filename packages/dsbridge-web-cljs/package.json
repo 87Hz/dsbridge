@@ -1,11 +1,13 @@
 {
-  "name": "dsbridge-web",
+  "name": "@chat.chat/dsbridge-web",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "shadow-cljs watch host",
-    "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
+    "build": "yarn clean && yarn build:preload && yarn build:host",
+    "build:preload": "shadow-cljs release preload",
+    "build:host": "shadow-cljs release host",
     "demo": "docz dev --typescript",
     "clean": "rimraf dist/"
   },
@@ -13,12 +15,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-plugin-ramda": "^2.0.0",
     "docz": "^1.2.0",
     "docz-theme-default": "^1.2.0",
-    "dsbridge": "^3.1.4"
-  },
-  "dependencies": {
-    "ramda": "^0.26.1"
+    "dsbridge": "^3.1.4",
+    "shadow-cljs": "^2.8.39"
   }
 }

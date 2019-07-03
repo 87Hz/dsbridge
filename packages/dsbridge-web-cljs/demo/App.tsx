@@ -1,3 +1,5 @@
+// Load dsbridge-web.preload
+import '../dist/preload';
 // Load wallet.core
 import './wallet.core';
 // Load dsbridge-web library
