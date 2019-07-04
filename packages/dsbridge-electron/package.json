@@ -1,0 +1,24 @@
+{
+  "name": "dsbridge-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "shadow-cljs watch host",
+    "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
+    "demo": "docz dev --typescript",
+    "clean": "rimraf dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ramda": "^0.26.15",
+    "babel-plugin-ramda": "^2.0.0",
+    "dsbridge": "^3.1.4"
+  },
+  "dependencies": {
+    "ramda": "^0.26.1",
+    "rxjs": "^6.5.2"
+  }
+}
