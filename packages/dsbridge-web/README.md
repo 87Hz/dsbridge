@@ -30,7 +30,51 @@ Functions below I think is not applicable in Browser. If you have any use case, 
 
 ## Examples
 
+### Your Universal DSBridge Library
+
 ```ts
+import dsbridge from 'dsbridge';
+
+dsbridge.register('web', {
+  add: (a: number, b: number) => a + b,
+});
+
+dsbridge.registerAsyn('web', {
+  addAsync: (a: number, b: number, cb: (sum: number) => void) => cb(a + b),
+});
+
+// native.hello Hello, Jack
+console.log('native.hello', dsbridge.call('native.hello', ['Jack']));
+
+dsbridge.call('native.helloAsync', ['Jack'], (json: string) => {
+  const { data } = JSON.parse(json);
+  // native.helloAsync Hello, Jack
+  console.log('native.helloAsync', data);
+});
+```
+
+### Main application
+
+```ts
+import {
+  hasJavascriptMethod,
+  callHandler,
+  addNativeMethod,
+  removeNativeMethod,
+} from 'dsbridge-web';
+
+hasJavascriptMethod('web.hello'); // true or false
+
+(async () => {
+  // sync handler
+  const add = await callHandler('web.add', [1, 20]);
+  console.log('add', add); // add 21
+
+  // async handler
+  const addAsync = await callHandler('web.addAsync', [20, 20]);
+  console.log('addAsync', addAsync); // addAsync 40
+})();
+
 addNativeMethod<[string], string>('native.hello', ([name]) => `Hello, ${name}`);
 
 addNativeMethod<[string], string>(
