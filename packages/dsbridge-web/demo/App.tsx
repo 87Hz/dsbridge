@@ -1,5 +1,6 @@
 import './wallet.core';
-import { callHandler, hasJavascriptMethod } from '../src';
+import './nativeMethods';
+import { callHandler, hasJavascriptMethod } from 'dsbridge-web';
 
 // ---------------------------------------------
 // hasJavascriptMethod
@@ -28,3 +29,8 @@ console.log('has handler add?', hasJavascriptMethod('add'));
   const addAsync = await callHandler('wallet-core.addAsync', [20, 20]);
   console.log('addAsync', addAsync);
 })();
+
+// ---------------------------------------------
+// testNativeMethods
+//
+callHandler('wallet-core.testNativeMethods');

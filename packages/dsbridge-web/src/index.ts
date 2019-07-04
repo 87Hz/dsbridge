@@ -2,7 +2,7 @@ import { Subject, Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { pathOr, F, T, prop, propEq } from 'ramda';
 
-interface ReturnType {
+interface WebReturnType {
   id: number;
   complete: string;
   data: any;
@@ -11,14 +11,14 @@ interface ReturnType {
 const global: any = window;
 let nextCallbackId = 0;
 const returnValSub = new Subject<string>();
-const returnValStream: Observable<ReturnType> = returnValSub.pipe(
+const returnValStream: Observable<WebReturnType> = returnValSub.pipe(
   map((json) => prop('data', JSON.parse(json)))
 );
 
 /** ---------------------------------------------------------
  * nativeHandlers
  */
-const nativeHandlers = {
+const nativeHandlers: Record<string, any> = {
   ['_dsb.dsinit']: T,
   ['_dsb.hasNativeMethod']: T,
   ['_dsb.disableJavascriptDialogBlock']: T,
@@ -49,7 +49,7 @@ export const hasJavascriptMethod: (method: string) => boolean = pathOr(
  */
 export const callHandler = <T = any>(
   method: string,
-  args?: any[]
+  args: any[] = []
 ): Promise<T> => {
   const id = nextCallbackId++;
 
@@ -61,8 +61,34 @@ export const callHandler = <T = any>(
 
   return new Promise((resolve) => {
     returnValStream
-      .pipe<ReturnType>(first(propEq('id', id)))
+      .pipe<WebReturnType>(first(propEq('id', id)))
       .subscribe((ret) => resolve(ret.data));
     global._handleMessageFromNative(infoJson);
   });
+};
+
+/** ---------------------------------------------------------
+ * addNativeMethod
+ */
+export const addNativeMethod = <T = any, R = any>(
+  method: string,
+  func: (args: T) => R | Promise<R>
+) => {
+  nativeHandlers[method] = (json: string): any => {
+    const { data: args, _dscbstub } = JSON.parse(json);
+
+    // sync
+    if (!_dscbstub) return JSON.stringify({ data: func(args) });
+
+    // async
+    (async () =>
+      global[_dscbstub](JSON.stringify({ data: await func(args) })))();
+  };
+};
+
+/** ---------------------------------------------------------
+ * removeNativeMethod
+ */
+export const removeNativeMethod = (method: string) => {
+  delete nativeHandlers[method];
 };

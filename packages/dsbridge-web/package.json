@@ -1,16 +1,22 @@
 {
   "name": "dsbridge-web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "shadow-cljs watch host",
+    "start": "docz dev --typescript",
     "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
-    "demo": "docz dev --typescript",
-    "clean": "rimraf dist/"
+    "clean": "rimraf dist/",
+    "prepublishOnly": "yarn clean && yarn build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "dsbridge",
+    "dsbridge-web"
+  ],
+  "author": "HU Ze",
   "license": "ISC",
   "devDependencies": {
     "@types/ramda": "^0.26.15",
