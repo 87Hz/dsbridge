@@ -1,5 +1,4 @@
-var bridge = {
-  default: this, // for typescript
+export const bridge = {
   call: function(method, args, cb) {
     var ret = '';
     if (typeof args == 'function') {
@@ -77,10 +76,12 @@ var bridge = {
       };
       var f = this._dsf[info.method];
       var af = this._dsaf[info.method];
+
       var callSyn = function(f, ob) {
         ret.data = f.apply(ob, arg);
         bridge.call('_dsb.returnValue', ret);
       };
+
       var callAsyn = function(f, ob) {
         arg.push(function(data, complete) {
           ret.data = data;
@@ -116,9 +117,11 @@ var bridge = {
       }
     },
   };
+
   for (var attr in ob) {
     window[attr] = ob[attr];
   }
+
   bridge.register('_hasJavascriptMethod', function(method, tag) {
     var name = method.split('.');
     if (name.length < 2) {
@@ -132,5 +135,3 @@ var bridge = {
     }
   });
 })();
-
-module.exports = bridge;

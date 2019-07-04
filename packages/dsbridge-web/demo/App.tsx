@@ -1,10 +1,9 @@
-// Load wallet.core
 import './wallet.core';
-// Load dsbridge-web library
 import { callHandler, hasJavascriptMethod } from '../src';
 
 // ---------------------------------------------
-// check handlers
+// hasJavascriptMethod
+//
 console.log(
   'has handler wallet-core.add?',
   hasJavascriptMethod('wallet-core.add')
@@ -18,12 +17,14 @@ console.log(
 console.log('has handler add?', hasJavascriptMethod('add'));
 
 // ---------------------------------------------
-// call sync function
-const sum = callHandler('wallet-core.add', [1, 20]);
-console.log('sum', sum);
+// callHandler
+//
+(async () => {
+  // sync function
+  const add = await callHandler('wallet-core.add', [1, 20]);
+  console.log('add', add);
 
-// // ---------------------------------------------
-// // call async function
-// callHandler('wallet-core.add-asyn', [10, 2], (sum: number) => {
-//   console.log('asyn sum', sum);
-// });
+  // async function
+  const addAsync = await callHandler('wallet-core.addAsync', [20, 20]);
+  console.log('addAsync', addAsync);
+})();
