@@ -1,7 +1,4 @@
-const { ipcMain } = require('electron');
-const { initElectron, addJavascriptObject } = require('../dist');
-
-initElectron(ipcMain);
+import { addJavascriptObject } from '../src';
 
 addJavascriptObject(
   {

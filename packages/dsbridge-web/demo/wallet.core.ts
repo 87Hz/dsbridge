@@ -1,4 +1,4 @@
-import { bridge as dsbridge } from '../ref/dsbridge';
+import dsbridge from 'dsbridge';
 
 dsbridge.register('wallet-core', {
   add: (a: number, b: number) => a + b,
