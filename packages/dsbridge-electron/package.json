@@ -1,10 +1,11 @@
 {
   "name": "dsbridge-electron",
-  "version": "1.0.0",
+  "version": "0.0.0-alpha",
+  "files": [
+    "dist"
+  ],
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "shadow-cljs watch host",
     "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
     "demo": "docz dev --typescript",
     "clean": "rimraf dist/"
@@ -18,7 +19,6 @@
     "dsbridge": "^3.1.4"
   },
   "dependencies": {
-    "ramda": "^0.26.1",
-    "rxjs": "^6.5.2"
+    "ramda": "^0.26.1"
   }
 }

@@ -1,24 +1,11 @@
 # dsbridge-electron
 
+DSBridge (https://www.npmjs.com/package/dsbridge) is an awesome library for communication between Native (iOS and Android) and WebView.
+
+If you have a library using DSBridge and would like to reuse it in Electron without additional build process, this package will serve that purpose.
+
 ## APIs
 
-API refer to Android: https://github.com/wendux/DSBridge-Android
+Mostly based on DSBridge-Android API: https://github.com/wendux/DSBridge-Android
 
-### Implemented
-
-### WIP
-- `callHandler<T = any>(method: string, args?: any[]) => Promise<T>`: Call the javascript API. If a handler is given, the javascript handler can respond. the handlerName can contain the namespace. As browser is single thread and dsbridge itself is async, there is no difference between sync and async call from native, and you should always use `await` to get return value, namely it will always return a promise.
-
-- `hasJavascriptMethod(method: string) => boolean`: Test whether the handler exist in javascript.
-
-- `addJavascriptObject`
-
-- `removeJavascriptObject`
-
-### Not Implemented
-
-- `disableJavascriptDialogBlock`
-
-- `setJavascriptCloseWindowListener`
-
-- `setWebContentsDebuggingEnabled`
+WIP
