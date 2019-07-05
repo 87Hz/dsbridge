@@ -1,4 +1,14 @@
 module.exports = {
   presets: ['@babel/preset-typescript', '@babel/preset-env'],
-  plugins: ['ramda'],
+  plugins: [
+    [
+      'transform-imports',
+      {
+        ramda: {
+          transform: 'ramda/src/${member}',
+          preventFullImport: true,
+        },
+      },
+    ],
+  ],
 };
