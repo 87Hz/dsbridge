@@ -20,10 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/ramda": "^0.26.15",
-    "babel-plugin-transform-imports": "^2.0.0",
-    "docz": "^1.2.0",
-    "docz-theme-default": "^1.2.0",
-    "dsbridge": "^3.1.4"
+    "babel-plugin-transform-imports": "^2.0.0"
   },
   "dependencies": {
     "ramda": "^0.26.1",

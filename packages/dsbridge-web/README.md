@@ -30,50 +30,47 @@ Functions below I think is not applicable in Browser. If you have any use case, 
 
 ## Examples
 
-### Your Universal DSBridge Library
+### WebMethods (your universal dsbridge library)
 
 ```ts
 import dsbridge from 'dsbridge';
 
 dsbridge.register('web', {
   add: (a: number, b: number) => a + b,
+
+  testNativeMethods: () => {
+    // native.hello Hello, Jack
+    console.log('native.hello', dsbridge.call('native.hello', ['Jack']));
+
+    // hasNativeMethod("native.hello") true
+    console.log(
+      'hasNativeMethod("native.hello")',
+      dsbridge.hasNativeMethod('native.hello')
+    );
+
+    // hasNativeMethod("native.world") false
+    console.log(
+      'hasNativeMethod("native.world")',
+      dsbridge.hasNativeMethod('native.world')
+    );
+
+    // native.helloAsync Hello, Jack
+    dsbridge.call('native.helloAsync', ['Jack'], (json: string) => {
+      const { data } = JSON.parse(json);
+      console.log('native.helloAsync', data);
+    });
+  },
 });
 
-dsbridge.registerAsyn('web', {
-  addAsync: (a: number, b: number, cb: (sum: number) => void) => cb(a + b),
-});
-
-// native.hello Hello, Jack
-console.log('native.hello', dsbridge.call('native.hello', ['Jack']));
-
-dsbridge.call('native.helloAsync', ['Jack'], (json: string) => {
-  const { data } = JSON.parse(json);
-  // native.helloAsync Hello, Jack
-  console.log('native.helloAsync', data);
+dsbridge.registerAsyn('web-async', {
+  add: (a: number, b: number, cb: (sum: number) => void) => cb(a + b),
 });
 ```
 
-### Main application
+### NativeMethods
 
 ```ts
-import {
-  hasJavascriptMethod,
-  callHandler,
-  addNativeMethod,
-  removeNativeMethod,
-} from 'dsbridge-web';
-
-hasJavascriptMethod('web.hello'); // true or false
-
-(async () => {
-  // sync handler
-  const add = await callHandler('web.add', [1, 20]);
-  console.log('add', add); // add 21
-
-  // async handler
-  const addAsync = await callHandler('web.addAsync', [20, 20]);
-  console.log('addAsync', addAsync); // addAsync 40
-})();
+import { addNativeMethod, removeNativeMethod } from 'dsbridge-web';
 
 addNativeMethod<[string], string>('native.hello', ([name]) => `Hello, ${name}`);
 
@@ -83,4 +80,38 @@ addNativeMethod<[string], string>(
 );
 
 removeNativeMethod('native.another');
+```
+
+### MainApp
+
+```ts
+// ---------------------------------------------
+// hasJavascriptMethod
+//
+// has handler web.add? true
+console.log('has handler web.add?', hasJavascriptMethod('web.add'));
+// has handler web-async.add? true
+console.log('has handler web-async.add?', hasJavascriptMethod('web-async.add'));
+// has handler add? false
+console.log('has handler add?', hasJavascriptMethod('add'));
+
+// ---------------------------------------------
+// callHandler
+//
+(async () => {
+  // sync function
+  const add = await callHandler('web.add', [1, 20]);
+  // web.add 21
+  console.log('web.add', add);
+
+  // async function
+  const addAsync = await callHandler('web-async.add', [20, 20]);
+  // web-async.addAsync 40
+  console.log('web-async.addAsync', addAsync);
+})();
+
+// ---------------------------------------------
+// testNativeMethods
+//
+callHandler('web.testNativeMethods');
 ```

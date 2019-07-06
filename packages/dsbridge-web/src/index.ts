@@ -27,7 +27,8 @@ const nativeHandlers: Record<string, any> = {
 
   ['_dsb.hasNativeMethod']: (data: string) => {
     const { name } = JSON.parse(data);
-    return has(name, nativeHandlers);
+    const ret = has(name, nativeHandlers);
+    return JSON.stringify({ data: ret });
   },
 };
 
