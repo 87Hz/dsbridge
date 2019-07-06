@@ -1,1 +1,1 @@
-require('../dist/preload');
+require('dsbridge-electron/dist/preload');

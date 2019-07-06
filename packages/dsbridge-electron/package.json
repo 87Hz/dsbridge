@@ -4,6 +4,7 @@
   "files": [
     "dist"
   ],
+  "main": "dist/index.js",
   "description": "",
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
@@ -13,11 +14,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "electron": "^5.0.6"
+  },
   "devDependencies": {
     "@babel/register": "^7.4.4",
-    "@types/ramda": "^0.26.15",
-    "electron": "^5.0.6",
-    "electron-reload": "^1.4.0"
+    "@types/ramda": "^0.26.15"
   },
   "dependencies": {
     "ramda": "^0.26.1"

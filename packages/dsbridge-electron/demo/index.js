@@ -1,5 +1,6 @@
 require('@babel/register')({
-  extensions: ['.js', '.ts'],
+  extensions: ['.ts'],
+  ignore: [/node_modules/],
 });
 
-require('./index.ts');
+require('./main');
