@@ -14,7 +14,7 @@ Mostly based on DSBridge-Android API: https://github.com/wendux/DSBridge-Android
 
 - `hasJavascriptMethod(method: string) => boolean`: Test whether the handler exist in javascript.
 
-- `addNativeMethod<T = any, R = any>(method: string, func: (args: T) => R | Promise<R>)`: renamed from `addJavascriptObject`, register one native method under given name. If the same name is used for multiple registrations, the later will overwrite the previous. The handler func could be either sync or async. (See example below)
+- `addNativeMethod<T = any, R = any>(method: string, func: (args: T) => R | Promise<R>, allowOverwriteBuiltin: boolean = false)`: renamed from `addJavascriptObject`, register one native method under given name. If the same name is used for multiple methods, the later will overwrite the previous. The handler func could be either sync or async. (See example below). Try not set `allowOverwriteBuiltin` as true unless you really want to change a particular builtin behavior.
 
 - `removeNativeMethod(method: string)`: renamed from `removeJavascriptObject`, remove one native method by given name. (See example below)
 
