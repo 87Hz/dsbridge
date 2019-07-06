@@ -1,6 +1,6 @@
-import { Subject, Observable } from 'rxjs';
-import { map, first } from 'rxjs/operators';
-import { pathOr, F, T, prop, propEq, startsWith, has } from 'ramda';
+import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { pathOr, F, T, propEq, startsWith, has } from 'ramda';
 
 interface WebReturnType {
   id: number;
@@ -10,27 +10,13 @@ interface WebReturnType {
 
 const global: any = window;
 let nextCallbackId = 0;
-const returnValSub = new Subject<string>();
-const returnValStream: Observable<WebReturnType> = returnValSub.pipe(
-  map((json) => prop('data', JSON.parse(json)))
-);
+const returnValSub = new Subject<WebReturnType>();
 
 /** ---------------------------------------------------------
- * nativeHandlers with builtinMethods
+ * nativeHandlers
  */
 const isBuiltinMethodName = startsWith('_dsb.');
-
-const nativeHandlers: Record<string, any> = {
-  ['_dsb.dsinit']: T,
-  ['_dsb.disableJavascriptDialogBlock']: T,
-  ['_dsb.returnValue']: (data: string) => returnValSub.next(data),
-
-  ['_dsb.hasNativeMethod']: (data: string) => {
-    const { name } = JSON.parse(data);
-    const ret = has(name, nativeHandlers);
-    return JSON.stringify({ data: ret });
-  },
-};
+const nativeHandlers: Record<string, any> = {};
 
 /** ---------------------------------------------------------
  * init
@@ -67,7 +53,7 @@ export const callHandler = <T = any>(
   };
 
   return new Promise((resolve) => {
-    returnValStream
+    returnValSub
       .pipe<WebReturnType>(first(propEq('id', id)))
       .subscribe((ret) => resolve(ret.data));
     global._handleMessageFromNative(infoJson);
@@ -79,9 +65,11 @@ export const callHandler = <T = any>(
  */
 export const addNativeMethod = <T = any, R = any>(
   method: string,
-  func: (args: T) => R | Promise<R>
+  func: (args: T) => R | Promise<R>,
+  allowOverwriteBuiltin: boolean = false
 ) => {
-  if (isBuiltinMethodName(method)) return;
+  if (!allowOverwriteBuiltin && isBuiltinMethodName(method)) return;
+
   nativeHandlers[method] = (json: string): any => {
     const { data: args, _dscbstub } = JSON.parse(json);
 
@@ -101,3 +89,26 @@ export const removeNativeMethod = (method: string) => {
   if (isBuiltinMethodName(method)) return;
   delete nativeHandlers[method];
 };
+
+/** ---------------------------------------------------------
+ * builtinMethods
+ */
+addNativeMethod('_dsb.dsinit', T, true);
+addNativeMethod('_dsb.disableJavascriptDialogBlock', T, true);
+
+addNativeMethod(
+  '_dsb.returnValue',
+  (arg) => {
+    returnValSub.next(arg);
+  },
+  true
+);
+
+addNativeMethod(
+  '_dsb.hasNativeMethod',
+  (args) => {
+    const name = pathOr('UnknownFunc', ['name'], args);
+    return has(name, nativeHandlers);
+  },
+  true
+);
