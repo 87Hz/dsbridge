@@ -1,8 +1,9 @@
 {
   "name": "dsbridge-web",
-  "version": "1.0.7",
-  "description": "",
+  "version": "1.0.8",
+  "description": "DSBridge for Web",
   "main": "dist/index.js",
+  "repository": "https://github.com/87Hz/dsbridge",
   "files": [
     "dist"
   ],
@@ -14,7 +15,8 @@
   },
   "keywords": [
     "dsbridge",
-    "dsbridge-web"
+    "dsbridge-web",
+    "dsbridge for web"
   ],
   "author": "HU Ze",
   "license": "ISC",
