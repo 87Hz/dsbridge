@@ -1,6 +1,6 @@
 import { Subject, Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
-import { pathOr, F, T, prop, propEq } from 'ramda';
+import { pathOr, F, T, prop, propEq, startsWith, has } from 'ramda';
 
 interface WebReturnType {
   id: number;
@@ -16,13 +16,19 @@ const returnValStream: Observable<WebReturnType> = returnValSub.pipe(
 );
 
 /** ---------------------------------------------------------
- * nativeHandlers
+ * nativeHandlers with builtinMethods
  */
+const isBuiltinMethodName = startsWith('_dsb.');
+
 const nativeHandlers: Record<string, any> = {
   ['_dsb.dsinit']: T,
-  ['_dsb.hasNativeMethod']: T,
   ['_dsb.disableJavascriptDialogBlock']: T,
   ['_dsb.returnValue']: (data: string) => returnValSub.next(data),
+
+  ['_dsb.hasNativeMethod']: (data: string) => {
+    const { name } = JSON.parse(data);
+    return has(name, nativeHandlers);
+  },
 };
 
 /** ---------------------------------------------------------
@@ -74,6 +80,7 @@ export const addNativeMethod = <T = any, R = any>(
   method: string,
   func: (args: T) => R | Promise<R>
 ) => {
+  if (isBuiltinMethodName(method)) return;
   nativeHandlers[method] = (json: string): any => {
     const { data: args, _dscbstub } = JSON.parse(json);
 
@@ -90,5 +97,6 @@ export const addNativeMethod = <T = any, R = any>(
  * removeNativeMethod
  */
 export const removeNativeMethod = (method: string) => {
+  if (isBuiltinMethodName(method)) return;
   delete nativeHandlers[method];
 };
