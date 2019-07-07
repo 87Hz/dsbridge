@@ -1,5 +1,13 @@
 module.exports = {
-  presets: ['@babel/preset-typescript', '@babel/preset-env'],
+  presets: [
+    '@babel/preset-typescript',
+    [
+      '@babel/preset-env',
+      {
+        exclude: ['transform-regenerator'],
+      },
+    ],
+  ],
   plugins: [
     [
       'transform-imports',

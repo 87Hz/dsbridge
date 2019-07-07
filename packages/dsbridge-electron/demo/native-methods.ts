@@ -1,23 +1,15 @@
-import { addJavascriptObject } from '../src';
+import {
+  addNativeSyncMethod,
+  addNativeAsyncMethod,
+  removeNativeMethod,
+} from 'dsbridge-electron';
 
-addJavascriptObject(
-  {
-    sync: (evt: any, args: string) => {
-      const { data } = JSON.parse(args);
-      evt.returnValue = JSON.stringify({ data });
-    },
-
-    async: () => {},
-  },
-  'hello'
+addNativeSyncMethod<string, string>('hello', (name) =>
+  JSON.stringify({ data: `Hello, ${name}` })
 );
 
-addJavascriptObject(
-  {
-    async: (evt: any, args: string) => {
-      const { data, _dscbstub } = JSON.parse(args);
-      evt.reply(_dscbstub, JSON.stringify({ data }));
-    },
-  },
-  'helloAsync'
+addNativeAsyncMethod<string, string>('helloAsync', async (name) =>
+  JSON.stringify({ data: `Hello, ${name}` })
 );
+
+removeNativeMethod('another');
