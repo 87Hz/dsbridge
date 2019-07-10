@@ -4,12 +4,14 @@ import {
   removeNativeMethod,
 } from 'dsbridge-electron';
 
-addNativeSyncMethod<string, string>('hello', (name) =>
-  JSON.stringify({ data: `Hello, ${name}` })
-);
+addNativeSyncMethod('hello', (argsJson) => {
+  const { data: name } = JSON.parse(argsJson);
+  return JSON.stringify({ data: `Hello, ${name}` });
+});
 
-addNativeAsyncMethod<string, string>('helloAsync', async (name) =>
-  JSON.stringify({ data: `Hello, ${name}` })
-);
+addNativeAsyncMethod('helloAsync', async (argsJson) => {
+  const { data: name } = JSON.parse(argsJson);
+  return JSON.stringify({ data: `Hello, ${name}` });
+});
 
 removeNativeMethod('another');
