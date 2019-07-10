@@ -19,8 +19,11 @@
     "electron": "^5.0.6"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
     "@babel/register": "^7.4.4",
-    "@types/ramda": "^0.26.15"
+    "@types/ramda": "^0.26.15",
+    "electron": "^5.0.6"
   },
   "dependencies": {
     "ramda": "^0.26.1",
