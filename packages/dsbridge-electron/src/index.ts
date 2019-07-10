@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { ipcMain, Event } from 'electron';
 import {
   includes,
   T,
@@ -23,9 +23,16 @@ import {
 //   map((json) => prop('data', JSON.parse(json)))
 // );
 
+export interface IpcEvent extends Event {
+  reply: (channel: string, msg: string) => void;
+}
+
 /** ---------------------------------------------------------
  * nativeHandlers
  */
+export type NativeSyncHandler = (argsJson: string) => string | void;
+export type NativeAsyncHandler = (argsJson: string) => Promise<string | void>;
+
 const isBuiltinMethodName = startsWith('_dsb.');
 let nativeSyncHandlers: string[] = [];
 let nativeAsyncHandlers: string[] = [];
@@ -33,17 +40,17 @@ let nativeAsyncHandlers: string[] = [];
 /** ---------------------------------------------------------
  * addNativeMethod
  */
-export const addNativeSyncMethod = <R = any>(
+export const addNativeSyncMethod = (
   method: string,
-  func: (argJson: string) => R,
+  func: NativeSyncHandler,
   allowOverwriteBuiltin: boolean = false
 ) => {
   if (!allowOverwriteBuiltin && isBuiltinMethodName(method)) return;
 
   // replace handler for this method
   ipcMain.removeAllListeners(method);
-  ipcMain.on(method, (event: any, argJson: string) => {
-    const ret = func(argJson);
+  ipcMain.on(method, (event: IpcEvent, argsJson: string) => {
+    const ret = func(argsJson);
     event.returnValue = ret;
   });
 
@@ -51,21 +58,21 @@ export const addNativeSyncMethod = <R = any>(
   nativeSyncHandlers.push(method);
 };
 
-export const addNativeAsyncMethod = <T = any, R = any>(
+export const addNativeAsyncMethod = (
   method: string,
-  func: (args: T) => Promise<R>,
+  func: NativeAsyncHandler,
   allowOverwriteBuiltin: boolean = false
 ) => {
   if (!allowOverwriteBuiltin && isBuiltinMethodName(method)) return;
 
   // replace handler for this method
   ipcMain.removeAllListeners(method);
-  ipcMain.on(method, (event: any, arg: any) => {
+  ipcMain.on(method, (event: IpcEvent, argsJson: string) => {
     (async () => {
-      const { data, _dscbstub } = arg;
-      const ret = await func(data);
+      const { _dscbstub } = JSON.parse(argsJson);
+      const ret = await func(argsJson);
       const retChannel = `${method}-${_dscbstub}`;
-      event.reply(retChannel, ret);
+      ret && event.reply(retChannel, ret);
     })();
   });
 
@@ -85,26 +92,24 @@ export const removeNativeMethod = (method: string) => {
 /** ---------------------------------------------------------
  * builtinMethods
  */
+const noop = () => {};
+
 addNativeSyncMethod(
   '_dsb.dsinit',
   always(JSON.stringify({ data: true })),
   true
 );
 
-addNativeSyncMethod(
-  '_dsb.disableJavascriptDialogBlock',
-  (args: { disable: boolean }) => {
-    const { disable } = args;
-    return JSON.stringify({ data: disable });
-  },
-  true
-);
+addNativeSyncMethod('_dsb.disableJavascriptDialogBlock', noop, true);
 
 export type NativeMethodType = 'all' | 'syn' | 'asyn';
 addNativeSyncMethod(
   '_dsb.hasNativeMethod',
-  (args: { name: string; type: NativeMethodType }) => {
-    const { name, type } = args;
+  (argsJson) => {
+    console.log('_dsb.hasNativeMethod', argsJson);
+    const {
+      data: { name, type },
+    } = JSON.parse(argsJson);
 
     const hasMethod = includes(name);
     const hasMethodAsSync = hasMethod(nativeSyncHandlers);
@@ -123,4 +128,4 @@ addNativeSyncMethod(
   true
 );
 
-addNativeSyncMethod('_dsb.returnValue', (arg) => {}, true);
+addNativeSyncMethod('_dsb.returnValue', (argsJson) => {}, true);
