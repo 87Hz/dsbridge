@@ -4,7 +4,7 @@ import dsBridge from 'dsbridge';
 export const RegisterAsync = () => {
   useEffect(() => {
     dsBridge.registerAsyn(
-      'append',
+      'append-async',
       (
         arg1: string,
         arg2: string,
@@ -15,7 +15,7 @@ export const RegisterAsync = () => {
       }
     );
 
-    dsBridge.registerAsyn('test', {
+    dsBridge.registerAsyn('test-async', {
       test1: (resCb: (res: string) => void) => {
         resCb('test-1');
       },
@@ -34,7 +34,7 @@ export const RegisterAsync = () => {
       <pre>
         {`
 dsBridge.registerAsyn(
-  'append',
+  'append-async',
   (
     arg1: string,
     arg2: string,
@@ -45,7 +45,7 @@ dsBridge.registerAsyn(
   }
 );
 
-dsBridge.registerAsyn('test', {
+dsBridge.registerAsyn('test-async', {
   test1: (resCb: (res: string) => void) => {
     resCb('test-1');
   },
