@@ -106,7 +106,6 @@ export type NativeMethodType = 'all' | 'syn' | 'asyn';
 addNativeSyncMethod(
   '_dsb.hasNativeMethod',
   (argsJson) => {
-    console.log('_dsb.hasNativeMethod', argsJson);
     const {
       data: { name, type },
     } = JSON.parse(argsJson);
