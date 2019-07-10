@@ -1,4 +1,6 @@
-import { ipcMain, Event } from 'electron';
+import { ipcMain, Event, WebContents } from 'electron';
+import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 import {
   includes,
   T,
@@ -16,12 +18,8 @@ import {
 //   data: any;
 // }
 
-// const global: any = window;
-// let nextCallbackId = 0;
-// const returnValSub = new Subject<string>();
-// const returnValStream: Observable<ReturnType> = returnValSub.pipe(
-//   map((json) => prop('data', JSON.parse(json)))
-// );
+let nextCallbackId = 0;
+const returnValSub = new Subject<string>();
 
 export interface IpcEvent extends Event {
   reply: (channel: string, msg: string) => void;
@@ -90,6 +88,41 @@ export const removeNativeMethod = (method: string) => {
 };
 
 /** ---------------------------------------------------------
+ * callHandler
+ */
+const idMatched = (currId: number) => (argsJson: string) => {
+  const {
+    data: { id },
+  } = JSON.parse(argsJson);
+  return id === currId;
+};
+
+export interface CallHandlerInfo {
+  method: string;
+  data: string;
+  callbackId: number;
+}
+
+export const callHandler = (
+  renderer: WebContents,
+  method: string,
+  args: any = {}
+): Promise<string> => {
+  const id = nextCallbackId++;
+
+  const info: CallHandlerInfo = {
+    method,
+    data: JSON.stringify(args),
+    callbackId: id,
+  };
+
+  return new Promise((resolve) => {
+    returnValSub.pipe(first(idMatched(id))).subscribe(resolve);
+    renderer.send('_handleMessageFromNative', info);
+  });
+};
+
+/** ---------------------------------------------------------
  * builtinMethods
  */
 const noop = () => {};
@@ -127,4 +160,10 @@ addNativeSyncMethod(
   true
 );
 
-addNativeSyncMethod('_dsb.returnValue', (argsJson) => {}, true);
+addNativeSyncMethod(
+  '_dsb.returnValue',
+  (argsJson) => {
+    returnValSub.next(argsJson);
+  },
+  true
+);

@@ -2,6 +2,7 @@ import {
   addNativeSyncMethod,
   addNativeAsyncMethod,
   removeNativeMethod,
+  callHandler,
 } from 'dsbridge-electron';
 
 addNativeSyncMethod('hello', (argsJson) => {
