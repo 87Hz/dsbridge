@@ -1,7 +1,11 @@
 import { app, BrowserWindow } from 'electron';
 import { join } from 'path';
 import './native-methods';
-import { addNativeAsyncMethod, callHandler } from 'dsbridge-electron';
+import {
+  addNativeAsyncMethod,
+  callHandler,
+  hasJavascriptMethod,
+} from 'dsbridge-electron';
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -15,7 +19,7 @@ const createWindow = () => {
   mainWindow.maximize();
 
   addNativeAsyncMethod('callWeb', async () => {
-    const resJson = await callHandler(mainWindow.webContents, 'append', [
+    const resJson = await callHandler(mainWindow.webContents, 'append-async', [
       200,
       50,
       1,
@@ -24,6 +28,18 @@ const createWindow = () => {
     const {
       data: { data },
     } = JSON.parse(resJson);
+
+    const addValueExist = await hasJavascriptMethod(
+      mainWindow.webContents,
+      'addValue'
+    );
+    console.log('addValueExist', addValueExist);
+
+    const anyOtherExist = await hasJavascriptMethod(
+      mainWindow.webContents,
+      'anyOther'
+    );
+    console.log('anyOtherExist', anyOtherExist);
 
     return JSON.stringify({ data });
   });

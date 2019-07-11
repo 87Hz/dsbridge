@@ -12,12 +12,6 @@ import {
   equals,
 } from 'ramda';
 
-// interface ReturnType {
-//   id: number;
-//   complete: string;
-//   data: any;
-// }
-
 let nextCallbackId = 0;
 const returnValSub = new Subject<string>();
 
@@ -86,6 +80,19 @@ export const removeNativeMethod = (method: string) => {
   nativeSyncHandlers = without([method], nativeSyncHandlers);
   nativeAsyncHandlers = without([method], nativeAsyncHandlers);
 };
+
+/** ---------------------------------------------------------
+ * hasJavascriptMethod
+ */
+export const hasJavascriptMethod = (renderer: WebContents, method: string) =>
+  new Promise<boolean>((resolve) => {
+    const retChannel = `_hasJavascriptMethod-${method}`;
+    ipcMain.once(retChannel, (_event: IpcEvent, ret: boolean) => {
+      resolve(ret);
+    });
+
+    renderer.send('_hasJavascriptMethod', method);
+  });
 
 /** ---------------------------------------------------------
  * callHandler
