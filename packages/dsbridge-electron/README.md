@@ -22,7 +22,7 @@ Mostly based on DSBridge-Android API: https://github.com/wendux/DSBridge-Android
 
 ### Not Implemented
 
-Functions below I think is not applicable in Browser. If you have any use case, please create an issue for that.
+Functions below I think is not applicable in Electron. If you have any use case, please create an issue for that.
 
 - `disableJavascriptDialogBlock`
 

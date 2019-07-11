@@ -1,11 +1,11 @@
 {
   "name": "dsbridge-electron",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "files": [
     "dist"
   ],
   "main": "dist/index.js",
-  "description": "",
+  "description": "DSBridge for Electron",
   "scripts": {
     "dist": "yarn clean && yarn build && yarn build:type",
     "build": "babel src --out-dir dist --extensions \".ts\"",
@@ -14,7 +14,11 @@
     "demo": "electron demo/index.js",
     "prepublishOnly": "yarn dist"
   },
-  "keywords": [],
+  "keywords": [
+    "dsbridge",
+    "dsbridge-electron",
+    "dsbridge for electron"
+  ],
   "author": "",
   "license": "ISC",
   "peerDependencies": {
