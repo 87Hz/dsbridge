@@ -1,0 +1,25 @@
+{
+  "name": "dsbridge-async",
+  "version": "1.0.0",
+  "description": "Async version of DSBridge",
+  "main": "lib/index.js",
+  "repository": "https://github.com/87Hz/dsbridge",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir lib --extensions \".ts\" && tsc",
+    "clean": "rimraf lib/",
+    "prepublishOnly": "yarn clean && yarn build"
+  },
+  "keywords": [
+    "dsbridge",
+    "dsbridge-async",
+    "dsbridge async"
+  ],
+  "author": "HU Ze",
+  "devDependencies": {},
+  "dependencies": {
+    "dsbridge": "^3.1.4"
+  }
+}
