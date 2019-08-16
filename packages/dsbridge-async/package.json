@@ -10,7 +10,7 @@
   "scripts": {
     "build": "babel src --out-dir lib --extensions \".ts\" && tsc",
     "clean": "rimraf lib/",
-    "prepublishOnly": "yarn clean && yarn build"
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [
     "dsbridge",
@@ -18,7 +18,13 @@
     "dsbridge async"
   ],
   "author": "HU Ze",
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "typescript": "^3.5.3"
+  },
   "dependencies": {
     "dsbridge": "^3.1.4"
   }
