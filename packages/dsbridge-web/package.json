@@ -2,14 +2,15 @@
   "name": "dsbridge-web",
   "version": "1.0.9",
   "description": "DSBridge for Web",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/87Hz/dsbridge",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
-    "start": "docz dev --typescript",
-    "build": "babel src --out-dir dist --extensions \".ts\" && tsc",
+    "build": "npm run build:lib && npm run build:type",
+    "build:lib": "babel src --out-dir dist --extensions \".ts\"",
+    "build:type": "tsc",
     "clean": "rimraf dist/",
     "prepublishOnly": "yarn clean && yarn build"
   },
@@ -21,8 +22,7 @@
   "author": "HU Ze",
   "license": "ISC",
   "devDependencies": {
-    "@types/ramda": "^0.26.15",
-    "babel-plugin-transform-imports": "^2.0.0"
+    "@types/ramda": "^0.26.15"
   },
   "dependencies": {
     "ramda": "^0.26.1",

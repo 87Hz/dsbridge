@@ -1,28 +1,5 @@
 {
-  "exclude": ["dist", "demo", "node_modules"],
-  "compilerOptions": {
-    "alwaysStrict": true,
-    "baseUrl": "./",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "esModuleInterop": true,
-    "lib": ["dom", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "outDir": "dist",
-    "resolveJsonModule": true,
-    "rootDir": "src",
-    "sourceMap": true,
-    "strict": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "target": "es5"
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {},
+  "include": ["./src"]
 }

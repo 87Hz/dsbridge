@@ -1,13 +1,14 @@
-import dsbridge from "dsbridge";
+import dsbridge from 'dsbridge';
 
 const dsbridgeAsync = {
-  call: <T = any, R = any>(handlerName: string, args?: T) =>
+  callAsync: <T = any, R = any>(handlerName: string, args?: T) =>
     new Promise<R>(resolve => dsbridge.call(handlerName, args, resolve)),
 
+  call: dsbridge.call,
   register: dsbridge.register,
   registerAsyn: dsbridge.registerAsyn,
   hasNativeMethod: dsbridge.hasNativeMethod,
-  disableJavascriptDialogBlock: dsbridge.disableJavascriptDialogBlock
+  disableJavascriptDialogBlock: dsbridge.disableJavascriptDialogBlock,
 };
 
-export { dsbridgeAsync };
+export default dsbridgeAsync;
