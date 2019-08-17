@@ -27,5 +27,6 @@
   "dependencies": {
     "ramda": "^0.26.1",
     "rxjs": "^6.5.2"
-  }
+  },
+  "gitHead": "54570e3b06c096d2b84a4ddb1a1fb4a2060bb3c6"
 }

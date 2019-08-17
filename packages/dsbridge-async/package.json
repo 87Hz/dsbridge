@@ -23,5 +23,6 @@
   "author": "HU Ze",
   "dependencies": {
     "dsbridge": "^3.1.4"
-  }
+  },
+  "gitHead": "54570e3b06c096d2b84a4ddb1a1fb4a2060bb3c6"
 }
