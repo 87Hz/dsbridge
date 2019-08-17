@@ -1,0 +1,41 @@
+{
+  "name": "dsbridge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:electron": "lerna run --scope dsbridge-electron build --stream"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/87Hz/dsbridge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/87Hz/dsbridge/issues"
+  },
+  "homepage": "https://github.com/87Hz/dsbridge#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-ramda": "^2.0.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-fp": "^2.3.0",
+    "eslint-plugin-ramda": "^2.5.1",
+    "eslint-plugin-react": "^7.14.3",
+    "lerna": "^3.16.4",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  }
+}

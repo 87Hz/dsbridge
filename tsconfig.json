@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "noLib": false,
+    "sourceMap": true,
+    "target": "es6",
+    "outDir": "./lib"
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
