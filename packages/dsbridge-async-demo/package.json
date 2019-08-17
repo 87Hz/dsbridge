@@ -8,14 +8,11 @@
     "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
-    "dsbridge-async": "^1.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@types/react": "^16.8.20",
-    "@types/react-dom": "^16.8.4",
-    "@types/webpack": "^4.4.32",
-    "@types/webpack-dev-server": "^3.1.6"
+    "@types/react-dom": "^16.8.4"
   }
 }

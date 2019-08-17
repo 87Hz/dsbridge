@@ -1,11 +1,12 @@
 import { app, BrowserWindow } from 'electron';
 import { join } from 'path';
-import './native-methods';
 import {
   addNativeAsyncMethod,
   callHandler,
   hasJavascriptMethod,
 } from 'dsbridge-electron';
+
+import './native-methods';
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({

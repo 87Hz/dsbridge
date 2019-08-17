@@ -21,10 +21,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/ramda": "^0.26.15"
+    "@types/ramda": "^0.26.15",
+    "electron": "^6.0.2"
   },
   "dependencies": {
-    "electron": "^6.0.2",
     "ramda": "^0.26.1",
     "rxjs": "^6.5.2"
   }

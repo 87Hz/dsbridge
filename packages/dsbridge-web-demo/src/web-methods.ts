@@ -1,4 +1,4 @@
-import dsbridge from 'dsbridge';
+import dsbridge from 'dsbridge-async';
 
 dsbridge.register('web', {
   add: (a: number, b: number) => a + b,
@@ -6,7 +6,7 @@ dsbridge.register('web', {
   testNativeMethods: () => {
     console.log('native.hello', dsbridge.call('native.hello', 'Jack'));
 
-    dsbridge.call('native.helloAsync', 'Jack', (argsJson) => {
+    dsbridge.call('native.helloAsync', 'Jack', argsJson => {
       const { data } = JSON.parse(argsJson);
       console.log('native.helloAsync', data);
     });

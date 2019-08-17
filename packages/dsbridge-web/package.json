@@ -8,11 +8,11 @@
     "lib"
   ],
   "scripts": {
-    "build": "npm run build:lib && npm run build:type",
-    "build:lib": "babel src --out-dir dist --extensions \".ts\"",
+    "build": "npm run clean && npm run build:lib && npm run build:type",
+    "build:lib": "babel --root-mode upward src --out-dir lib --extensions \".ts\"",
     "build:type": "tsc",
-    "clean": "rimraf dist/",
-    "prepublishOnly": "yarn clean && yarn build"
+    "clean": "rimraf lib/",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "dsbridge",

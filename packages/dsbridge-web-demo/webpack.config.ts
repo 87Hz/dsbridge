@@ -3,7 +3,7 @@ import { Configuration } from 'webpack';
 import 'webpack-dev-server';
 
 export default (): Configuration => ({
-  entry: ['@babel/polyfill', './src/index.ts'],
+  entry: './src/index.ts',
 
   devServer: {
     compress: false,
@@ -13,7 +13,7 @@ export default (): Configuration => ({
   },
 
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.tsx', '.js', 'jsx', '.json'],
   },
 
   module: {
@@ -21,7 +21,12 @@ export default (): Configuration => ({
       {
         exclude: /node_modules/,
         test: /\.tsx?$/,
-        use: ['babel-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            rootMode: 'upward',
+          },
+        },
       },
     ],
   },

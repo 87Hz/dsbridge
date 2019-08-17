@@ -8,8 +8,7 @@
     "noImplicitAny": false,
     "noLib": false,
     "sourceMap": true,
-    "target": "es6",
-    "outDir": "./lib"
+    "target": "es6"
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

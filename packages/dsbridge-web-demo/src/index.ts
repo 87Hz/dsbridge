@@ -1,6 +1,7 @@
+import { callHandler, hasJavascriptMethod } from 'dsbridge-web';
+
 import './web-methods';
 import './native-methods';
-import { callHandler, hasJavascriptMethod } from 'dsbridge-web';
 
 // ---------------------------------------------
 // hasJavascriptMethod

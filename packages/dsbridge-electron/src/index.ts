@@ -1,4 +1,4 @@
-import { ipcMain, Event, WebContents } from 'electron';
+import { ipcMain, IpcMainEvent, WebContents } from 'electron';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import {
@@ -14,10 +14,6 @@ import {
 
 let nextCallbackId = 0;
 const returnValSub = new Subject<string>();
-
-export interface IpcEvent extends Event {
-  reply: (channel: string, msg: string) => void;
-}
 
 /** ---------------------------------------------------------
  * nativeHandlers
@@ -41,7 +37,7 @@ export const addNativeSyncMethod = (
 
   // replace handler for this method
   ipcMain.removeAllListeners(method);
-  ipcMain.on(method, (event: IpcEvent, argsJson: string) => {
+  ipcMain.on(method, (event: IpcMainEvent, argsJson: string) => {
     const ret = func(argsJson);
     event.returnValue = ret;
   });
@@ -59,7 +55,7 @@ export const addNativeAsyncMethod = (
 
   // replace handler for this method
   ipcMain.removeAllListeners(method);
-  ipcMain.on(method, (event: IpcEvent, argsJson: string) => {
+  ipcMain.on(method, (event: IpcMainEvent, argsJson: string) => {
     (async () => {
       const { _dscbstub } = JSON.parse(argsJson);
       const ret = await func(argsJson);
@@ -85,9 +81,9 @@ export const removeNativeMethod = (method: string) => {
  * hasJavascriptMethod
  */
 export const hasJavascriptMethod = (renderer: WebContents, method: string) =>
-  new Promise<boolean>((resolve) => {
+  new Promise<boolean>(resolve => {
     const retChannel = `_hasJavascriptMethod-${method}`;
-    ipcMain.once(retChannel, (_event: IpcEvent, ret: boolean) => {
+    ipcMain.once(retChannel, (_event: IpcMainEvent, ret: boolean) => {
       resolve(ret);
     });
 
@@ -123,7 +119,7 @@ export const callHandler = (
     callbackId: id,
   };
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     returnValSub.pipe(first(idMatched(id))).subscribe(resolve);
     renderer.send('_handleMessageFromNative', info);
   });
@@ -145,7 +141,7 @@ addNativeSyncMethod('_dsb.disableJavascriptDialogBlock', noop, true);
 export type NativeMethodType = 'all' | 'syn' | 'asyn';
 addNativeSyncMethod(
   '_dsb.hasNativeMethod',
-  (argsJson) => {
+  argsJson => {
     const {
       data: { name, type },
     } = JSON.parse(argsJson);
@@ -169,7 +165,7 @@ addNativeSyncMethod(
 
 addNativeSyncMethod(
   '_dsb.returnValue',
-  (argsJson) => {
+  argsJson => {
     returnValSub.next(argsJson);
   },
   true

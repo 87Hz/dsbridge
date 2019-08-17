@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:electron": "lerna run --scope dsbridge-electron build --stream"
+    "start:async-demo": "lerna run --scope dsbridge-async-demo start --stream",
+    "start:electron-demo": "lerna run --scope dsbridge-electron-demo start --stream",
+    "start:web-demo": "lerna run --scope dsbridge-web-demo start --stream",
+    "build:async": "lerna run --scope dsbridge-async build --stream",
+    "build:async-demo": "lerna run --scope dsbridge-async-demo build --stream",
+    "build:electron": "lerna run --scope dsbridge-electron build --stream",
+    "build:web": "lerna run --scope dsbridge-web build --stream"
   },
   "repository": {
     "type": "git",
@@ -21,6 +27,8 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@babel/register": "^7.5.5",
+    "@types/webpack-dev-server": "^3.1.7",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "babel-loader": "^8.0.6",

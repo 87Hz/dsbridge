@@ -1,6 +1,7 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { F, pathOr } from 'ramda';
-import { IpcEvent, CallHandlerInfo } from './';
+
+import { CallHandlerInfo } from './';
 
 const global: any = window;
 
@@ -19,7 +20,7 @@ const global: any = window;
       // ----------------------------------------------------
       // async
       const retChannel = `${method}-${_dscbstub}`;
-      ipcRenderer.once(retChannel, (_event: IpcEvent, msg: string) => {
+      ipcRenderer.once(retChannel, (_event: IpcRendererEvent, msg: string) => {
         global[_dscbstub](msg);
       });
       ipcRenderer.send(method, argsJson);
@@ -32,22 +33,25 @@ const global: any = window;
  */
 ipcRenderer.on(
   '_handleMessageFromNative',
-  (_event: IpcEvent, info: CallHandlerInfo) =>
+  (_event: IpcRendererEvent, info: CallHandlerInfo) =>
     global['_handleMessageFromNative'](info)
 );
 
 /** ---------------------------------------------------------
  * _hasJavascriptMethod
  */
-ipcRenderer.on('_hasJavascriptMethod', (event: IpcEvent, method: string) => {
-  const checkFn = pathOr<(method: string) => boolean>(
-    F,
-    ['_dsf', '_hasJavascriptMethod'],
-    global
-  );
+ipcRenderer.on(
+  '_hasJavascriptMethod',
+  (event: IpcRendererEvent, method: string) => {
+    const checkFn = pathOr<(method: string) => boolean>(
+      F,
+      ['_dsf', '_hasJavascriptMethod'],
+      global
+    );
 
-  const retChannel = `_hasJavascriptMethod-${method}`;
-  const exists = checkFn(method);
+    const retChannel = `_hasJavascriptMethod-${method}`;
+    const exists = checkFn(method);
 
-  event.sender.send(retChannel, exists);
-});
+    event.sender.send(retChannel, exists);
+  }
+);

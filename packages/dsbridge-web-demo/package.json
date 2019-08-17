@@ -1,0 +1,12 @@
+{
+  "name": "dsbridge-web-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "dependencies": {
+    "dsbridge-async": "1.0.0",
+    "dsbridge-web": "^1.0.9"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "dsbridge-electron-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dsbridge-electron": "0.0.2",
+    "electron": "^6.0.2"
+  }
+}
