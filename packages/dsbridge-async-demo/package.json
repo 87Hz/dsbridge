@@ -8,9 +8,9 @@
     "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
-    "dsbridge-async": "1.0.0",
-    "react-dom": "^16.8.6",
-    "react": "^16.8.6"
+    "dsbridge-async": "^1.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@types/react": "^16.8.20",
