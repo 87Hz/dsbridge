@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "dsbridge-electron": "^0.0.2",
-    "electron": "^6.0.2"
+    "electron": "^7.2.4"
   }
 }
